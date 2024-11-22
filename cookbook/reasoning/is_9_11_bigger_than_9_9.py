@@ -1,11 +1,21 @@
+import os
 from phi.agent import Agent
 from phi.model.openai import OpenAIChat
 from phi.cli.console import console
 
 task = "9.11 and 9.9 -- which is bigger?"
 
-regular_agent = Agent(model=OpenAIChat(id="gpt-4o"), markdown=True)
-reasoning_agent = Agent(model=OpenAIChat(id="gpt-4o"), reasoning=True, markdown=True, structured_outputs=True)
+regular_agent = Agent(
+    model=OpenAIChat(id="gpt-4o-2024-11-20", base_url=os.getenv("OPENAI_API_BASE")),
+    markdown=True,
+)
+reasoning_agent = Agent(
+    model=OpenAIChat(id="gpt-4o-2024-11-20", base_url=os.getenv("OPENAI_API_BASE")),
+    reasoning_model=OpenAIChat(id="gpt-4o-2024-11-20", base_url=os.getenv("OPENAI_API_BASE")),
+    reasoning=True,
+    markdown=True,
+    structured_outputs=True,
+)
 
 console.rule("[bold green]Regular Agent[/bold green]")
 regular_agent.print_response(task, stream=True)

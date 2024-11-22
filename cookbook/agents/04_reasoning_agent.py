@@ -1,12 +1,15 @@
+import os
+
 from phi.agent import Agent
 from phi.model.openai import OpenAIChat
 
-task = (
-    "Three missionaries and three cannibals need to cross a river. "
-    "They have a boat that can carry up to two people at a time. "
-    "If, at any time, the cannibals outnumber the missionaries on either side of the river, the cannibals will eat the missionaries. "
-    "How can all six people get across the river safely? Provide a step-by-step solution and show the solutions as an ascii diagram"
-)
+task = "帮我发现香港储蓄型保险可能存在的问题"
 
-reasoning_agent = Agent(model=OpenAIChat(id="gpt-4o"), reasoning=True, markdown=True, structured_outputs=True)
+reasoning_agent = Agent(
+    model=OpenAIChat(id="gpt-4o", base_url=os.getenv("OPENAI_API_BASE")),
+    reasoning_model=OpenAIChat(id="gpt-4o", base_url=os.getenv("OPENAI_API_BASE")),
+    reasoning=True,
+    markdown=True,
+    structured_outputs=True,
+)
 reasoning_agent.print_response(task, stream=True, show_full_reasoning=True)
